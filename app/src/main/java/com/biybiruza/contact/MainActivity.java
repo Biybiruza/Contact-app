@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
@@ -40,19 +41,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }
 
     public void loadData() {
         Toast.makeText(this, "count: "+count, Toast.LENGTH_SHORT).show();
-        List<ContactModels> contactList = myShared.getList("key_"+count,ContactModels.class);
+        List<ContactModels> contactList = new ArrayList<>();
+        contactList.addAll(myShared.getList("key_",ContactModels.class));
 
+        Log.d("tag", ""+contactList);
         if (contactList != null) {
             binding.tvTextView.setVisibility(View.GONE);
             binding.rvContact.setVisibility(View.VISIBLE);
 
             adapterContact = new AdapterContact(contactList);
+            adapterContact.notifyDataSetChanged();
             binding.rvContact.setAdapter(adapterContact);
         } else {
             binding.tvTextView.setVisibility(View.VISIBLE);

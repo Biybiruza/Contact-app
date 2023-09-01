@@ -2,6 +2,7 @@ package com.biybiruza.contact;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.biybiruza.contact.data.ContactModels;
 import com.google.gson.Gson;
@@ -23,6 +24,7 @@ public class MyShared {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key, gson.toJson(list));
         editor.apply();
+        Log.d("tag", gson.toJson(list));
     }
 
     public <T> List<T> getList(String key, Class<T> clazz) {

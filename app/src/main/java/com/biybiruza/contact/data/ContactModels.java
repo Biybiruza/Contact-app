@@ -2,10 +2,11 @@ package com.biybiruza.contact.data;
 
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactModels {
+public class ContactModels implements Serializable {
 
     String name;
     String surname;

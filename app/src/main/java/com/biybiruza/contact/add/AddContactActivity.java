@@ -27,18 +27,16 @@ public class AddContactActivity extends AppCompatActivity {
     private MyShared myShared;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddContactBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         myShared = new MyShared(this, new Gson());
         sharedPreferences = getSharedPreferences("Count", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-
-        count = sharedPreferences.getInt("count", 0);
 
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,33 +56,27 @@ public class AddContactActivity extends AppCompatActivity {
     }
 
     private void save() {
-        List<ContactModels> list = new ArrayList<>();
 
-        list.add(new ContactModels(binding.etName.getText().toString(), binding.etSurname.getText().toString(),
+        List<ContactModels> contactList = new ArrayList<>();
+        contactList.addAll(myShared.getList("key_",ContactModels.class));
+
+
+        contactList.add(new ContactModels(binding.etName.getText().toString(), binding.etSurname.getText().toString(),
                 binding.etPhoneNumber.getText().toString()));
 
-        count++;
-        editor.putInt("count", count);
-        editor.apply();
-        myShared.putList("key_"+count, list);
 
-        Toast.makeText(AddContactActivity.this, "key_"+count, Toast.LENGTH_SHORT).show();
+        myShared.putList("key_", contactList);
+
         Toast.makeText(AddContactActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
-        Log.d("TAG", "list: ");
+
         binding.etName.setText("");
         binding.etSurname.setText("");
         binding.etPhoneNumber.setText("");
 
         Intent intent = new Intent(AddContactActivity.this, MainActivity.class);
-        intent.putExtra("key", count);
         startActivity(intent);
         finish();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        count = sharedPreferences.getInt("count", 0);
-    }
 }
