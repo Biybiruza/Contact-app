@@ -2,6 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--permissions to read contacts-->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!--permissions to write contacts-->
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <!--permissions to make a call-->
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <!--permissions to send sms-->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <!--permissions to write sms-->
+    <uses-permission android:name="android.permission.WRITE_SMS"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
