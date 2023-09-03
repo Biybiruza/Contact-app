@@ -30,6 +30,10 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ViewHold
         this.onCallClickListener = onCallClickListener;
     }
 
+    public AdapterContact(List<ContactModels> list) {
+        this.list = list;
+    }
+
     public interface OnItemClickListener{
         void onItemClick(int position);
     }

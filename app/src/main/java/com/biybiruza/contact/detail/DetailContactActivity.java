@@ -32,7 +32,7 @@ import java.util.List;
 public class DetailContactActivity extends AppCompatActivity {
 
     private ActivityDetailContactBinding binding;
-
+    List<ContactModels> contactList = new ArrayList<>();
     String name, surname, phoneNumber;
     String phone;
     MyShared myShared;
@@ -51,9 +51,17 @@ public class DetailContactActivity extends AppCompatActivity {
         surname = getIntent().getStringExtra("surname");
         phoneNumber = getIntent().getStringExtra("phone");
         position = getIntent().getIntExtra("position", 0);
+        Toast.makeText(this, "position: "+position, Toast.LENGTH_SHORT).show();
 
-        binding.tvName.setText(name+" "+surname);
-        binding.tvPhoneNumber.setText("+998"+phoneNumber);
+//        binding.tvName.setText(name+" "+surname);
+//        binding.tvPhoneNumber.setText("+998"+phoneNumber);
+
+        if (myShared.getList("key_",ContactModels.class) != null) {
+            contactList.addAll(myShared.getList("key_", ContactModels.class));
+
+            binding.tvName.setText(contactList.get(position).getName() + " " + contactList.get(position).getSurname());
+            binding.tvPhoneNumber.setText("+998" + contactList.get(position).getPhoneNumber());
+        }
 
         //get phone
         phone = binding.tvPhoneNumber.getText().toString().trim();
@@ -97,6 +105,9 @@ public class DetailContactActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddContactActivity.class);
         intent.putExtra("title", "Edit contact");
         intent.putExtra("position", position);
+        intent.putExtra("name",name);
+        intent.putExtra("surname",surname);
+        intent.putExtra("phone",phoneNumber);
         startActivity(intent);
         finish();
     }

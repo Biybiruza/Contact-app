@@ -29,12 +29,13 @@ public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
     AdapterContact adapterContact;
     private MyShared myShared;
+    List<ContactModels> contactList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot())
+        setContentView(binding.getRoot());
         myShared = new MyShared(this, new Gson());
 
         loadData();
@@ -52,7 +53,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    List<ContactModels> contactList = new ArrayList<>();
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        adapterContact = new AdapterContact(contactList);
+//    }
+
     public void loadData() {
         if (myShared.getList("key_",ContactModels.class) != null){
             contactList.addAll(myShared.getList("key_",ContactModels.class));
@@ -63,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             binding.rvContact.setVisibility(View.GONE);
         }
 
-        Log.d("tag", ""+contactList);
+        Log.d("main", ""+contactList.toString());
         //get phone
             adapterContact = new AdapterContact(contactList,
                     new AdapterContact.OnItemClickListener() { //item click
@@ -103,5 +110,4 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("position", position);
         startActivity(intent);
     }
-
 }

@@ -29,6 +29,8 @@ public class AddContactActivity extends AppCompatActivity {
     private MyShared myShared;
     String toolbarTitle; int position;
 
+    List<ContactModels> contactList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +38,12 @@ public class AddContactActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         myShared = new MyShared(this, new Gson());
+
         toolbarTitle = getIntent().getStringExtra("title");
-        Toast.makeText(this, "toolbarTitle: "+toolbarTitle, Toast.LENGTH_SHORT).show();
         position = getIntent().getIntExtra("position",0);
-        binding.tvToolbarTitle.setText(toolbarTitle);
+        Toast.makeText(this, "toolbarTitle: "+toolbarTitle, Toast.LENGTH_SHORT).show();
+
+
         toolbarTitleChange();
 
         binding.ivBackBtn.setOnClickListener(new View.OnClickListener() {
@@ -54,18 +58,8 @@ public class AddContactActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (Objects.equals(toolbarTitle, "Edit contact")) {
 
-                    if (myShared.getList("key_",ContactModels.class) != null){
-                        contactList.addAll(myShared.getList("key_",ContactModels.class));
+                    isEditContact();
 
-                        //set data to ui
-                       contactList.get(position).setName(binding.etName.getText().toString());
-                       contactList.get(position).setSurname(binding.etSurname.getText().toString());
-                       contactList.get(position).setPhoneNumber(binding.etPhoneNumber.getText().toString());
-
-                        Intent intent = new Intent(AddContactActivity.this, DetailContactActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
                 } else if (Objects.equals(toolbarTitle, "Add new contact")) {
 
                     isEmpty();
@@ -74,7 +68,20 @@ public class AddContactActivity extends AppCompatActivity {
         });
     }
 
-    List<ContactModels> contactList = new ArrayList<>();
+    private void isEditContact(){
+
+        contactList.set(position, new ContactModels(binding.etName.getText().toString(),
+                binding.etSurname.getText().toString(),
+                binding.etPhoneNumber.getText().toString()));
+
+        myShared.putList("key_", contactList);
+
+        Toast.makeText(AddContactActivity.this, "name: "+contactList.get(position).getName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(AddContactActivity.this, DetailContactActivity.class);
+        intent.putExtra("position",position);
+        startActivity(intent);
+        finish();
+    }
 
     void onClickBackButton() { //ishlayabdi
         if (Objects.equals(toolbarTitle, "Edit contact")) {
@@ -92,7 +99,8 @@ public class AddContactActivity extends AppCompatActivity {
         }
     }
     void toolbarTitleChange() {
-        if (toolbarTitle == "Edit contact") {
+        if (Objects.equals(toolbarTitle, "Edit contact")) {
+            binding.tvToolbarTitle.setText(toolbarTitle);
 
             if (myShared.getList("key_",ContactModels.class) != null){
                 contactList.addAll(myShared.getList("key_",ContactModels.class));
@@ -101,9 +109,9 @@ public class AddContactActivity extends AppCompatActivity {
                 binding.etName.setText(contactList.get(position).getName());
                 binding.etSurname.setText(contactList.get(position).getSurname());
                 binding.etPhoneNumber.setText(contactList.get(position).getPhoneNumber());
-            } else {
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
             }
+        } else {
+            binding.tvToolbarTitle.setText(toolbarTitle);
         }
     }
 
