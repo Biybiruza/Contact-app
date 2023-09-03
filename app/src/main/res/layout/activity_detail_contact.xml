@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".detail.DetailContactActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:elevation="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/l1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/iv_backBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/baseline_arrow_back"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="14dp"
+                android:padding="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Detail the contact"
+                android:textSize="22dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:fontFamily="@font/roboto_medium_500"
+                android:textColor="#323232"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_img"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:cardCornerRadius="50dp"
+        app:layout_constraintVertical_bias="0.15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_toolbar">
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/account_img"
+            android:scaleType="centerCrop"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/iv_edit"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/baseline_edit"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/cv_img"/>
+
+    <ImageView
+        android:id="@+id/iv_delete"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/baseline_delete"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@id/iv_edit"
+        app:layout_constraintBottom_toBottomOf="@id/cv_img"/>
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ivan Ivanovish"
+        android:textSize="32dp"
+        android:fontFamily="@font/roboto_medium_500"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_img"/>
+
+    <TextView
+        android:id="@+id/tv_phoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+99897 565 71 73"
+        android:textSize="22dp"
+        android:textColor="@color/black"
+        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:fontFamily="@font/roboto_medium_500"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"/>
+
+    <ImageView
+        android:id="@+id/iv_messageBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/baseline_message"
+        android:padding="12dp"
+        android:layout_marginHorizontal="16dp"
+        android:background="@drawable/btn_background_message_shape"
+        app:layout_constraintBottom_toBottomOf="@id/tv_phoneNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_phoneNumber"/>
+
+    <ImageView
+        android:id="@+id/iv_callBtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/baseline_call"
+        android:layout_marginHorizontal="16dp"
+        android:padding="12dp"
+        android:background="@drawable/btn_background_shape_call"
+        app:layout_constraintBottom_toBottomOf="@id/tv_phoneNumber"
+        app:layout_constraintEnd_toStartOf="@id/iv_messageBtn"
+        app:layout_constraintTop_toTopOf="@id/tv_phoneNumber"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18dp"
+        android:text="Call history"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="50dp"
+        android:fontFamily="@font/roboto_regular_400"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_phoneNumber"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

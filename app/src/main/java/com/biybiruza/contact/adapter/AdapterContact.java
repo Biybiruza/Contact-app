@@ -1,8 +1,12 @@
 package com.biybiruza.contact.adapter;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,9 +20,21 @@ import java.util.List;
 public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ViewHolder> {
 
     public List<ContactModels> list;
+    private OnItemClickListener onClickListener;
+    private OnCallClickListener onCallClickListener;
 
-    public AdapterContact(List<ContactModels> list) {
+    public AdapterContact(List<ContactModels> list, OnItemClickListener onClickListener,
+                          OnCallClickListener onCallClickListener) {
         this.list = list;
+        this.onClickListener = onClickListener;
+        this.onCallClickListener = onCallClickListener;
+    }
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+    public interface OnCallClickListener{
+        void onCallClick(int position);
     }
 
     @NonNull
@@ -31,6 +47,21 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(String.format("%s %s", list.get(position).getName(), list.get(position).getSurname()));
         holder.phoneNumber.setText("+998"+list.get(position).getPhoneNumber());
+        //item click
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickListener.onItemClick(position);
+            }
+        });
+
+        //call click
+        holder.call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCallClickListener.onCallClick(position);
+            }
+        });
     }
 
     @Override
@@ -42,12 +73,14 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ViewHold
 
         TextView name;
         TextView phoneNumber;
+        ImageView call;
 
         public ViewHolder(View itemView){
             super(itemView);
 
             name = itemView.findViewById(R.id.tv_name);
             phoneNumber = itemView.findViewById(R.id.tv_phone);
+            call = itemView.findViewById(R.id.iv_callBtn);
         }
     }
 }
