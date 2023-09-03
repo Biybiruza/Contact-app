@@ -102,12 +102,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onItemClickListener(int position) {
-        Toast.makeText(this, contactList.get(position).getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DetailContactActivity.class);
-        intent.putExtra("name", contactList.get(position).getName());
-        intent.putExtra("surname", contactList.get(position).getSurname());
-        intent.putExtra("phone", contactList.get(position).getPhoneNumber());
         intent.putExtra("position", position);
         startActivity(intent);
+        finish();
     }
 }

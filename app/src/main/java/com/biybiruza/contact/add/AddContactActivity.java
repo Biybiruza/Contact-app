@@ -41,7 +41,6 @@ public class AddContactActivity extends AppCompatActivity {
 
         toolbarTitle = getIntent().getStringExtra("title");
         position = getIntent().getIntExtra("position",0);
-        Toast.makeText(this, "toolbarTitle: "+toolbarTitle, Toast.LENGTH_SHORT).show();
 
 
         toolbarTitleChange();
@@ -76,7 +75,6 @@ public class AddContactActivity extends AppCompatActivity {
 
         myShared.putList("key_", contactList);
 
-        Toast.makeText(AddContactActivity.this, "name: "+contactList.get(position).getName(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(AddContactActivity.this, DetailContactActivity.class);
         intent.putExtra("position",position);
         startActivity(intent);
@@ -86,18 +84,21 @@ public class AddContactActivity extends AppCompatActivity {
     void onClickBackButton() { //ishlayabdi
         if (Objects.equals(toolbarTitle, "Edit contact")) {
 
-            Intent intent = new Intent(AddContactActivity.this, DetailContactActivity.class);
-            startActivity(intent);
-            finish();
+            intent(DetailContactActivity.class);
 
         } else if (Objects.equals(toolbarTitle, "Add new contact")) {
 
-            Intent intent = new Intent(AddContactActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            intent(MainActivity.class);
 
         }
     }
+
+    void intent(Class activity) {
+        Intent intent = new Intent(AddContactActivity.this, activity);
+        startActivity(intent);
+        finish();
+    }
+
     void toolbarTitleChange() {
         if (Objects.equals(toolbarTitle, "Edit contact")) {
             binding.tvToolbarTitle.setText(toolbarTitle);
@@ -115,7 +116,7 @@ public class AddContactActivity extends AppCompatActivity {
         }
     }
 
-    void isEmpty(){
+    void isEmpty(){ //action when add new contact
         if (binding.etName.getText().toString().isEmpty()){
             Toast.makeText(AddContactActivity.this, "Enter name, please", Toast.LENGTH_SHORT).show();
         } else if (binding.etPhoneNumber.getText().toString().isEmpty()){
@@ -133,7 +134,6 @@ public class AddContactActivity extends AppCompatActivity {
         List<ContactModels> contactList = new ArrayList<>();
         if (myShared.getList("key_",ContactModels.class) != null){
             contactList.addAll(myShared.getList("key_",ContactModels.class));
-            Toast.makeText(this, "list: "+myShared.getList("key_",ContactModels.class).toString(), Toast.LENGTH_SHORT).show();
         }
 
         contactList.add(new ContactModels(binding.etName.getText().toString(), binding.etSurname.getText().toString(),

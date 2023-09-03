@@ -6,13 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 
 import com.biybiruza.contact.MainActivity;
 import com.biybiruza.contact.MyShared;
-import com.biybiruza.contact.R;
 import com.biybiruza.contact.add.AddContactActivity;
 import com.biybiruza.contact.data.ContactModels;
 import com.biybiruza.contact.databinding.ActivityDetailContactBinding;
@@ -33,8 +29,6 @@ public class DetailContactActivity extends AppCompatActivity {
 
     private ActivityDetailContactBinding binding;
     List<ContactModels> contactList = new ArrayList<>();
-    String name, surname, phoneNumber;
-    String phone;
     MyShared myShared;
     int position;
 
@@ -47,14 +41,8 @@ public class DetailContactActivity extends AppCompatActivity {
 
         myShared = new MyShared(this, new Gson());
 
-        name = getIntent().getStringExtra("name");
-        surname = getIntent().getStringExtra("surname");
-        phoneNumber = getIntent().getStringExtra("phone");
         position = getIntent().getIntExtra("position", 0);
         Toast.makeText(this, "position: "+position, Toast.LENGTH_SHORT).show();
-
-//        binding.tvName.setText(name+" "+surname);
-//        binding.tvPhoneNumber.setText("+998"+phoneNumber);
 
         if (myShared.getList("key_",ContactModels.class) != null) {
             contactList.addAll(myShared.getList("key_", ContactModels.class));
@@ -63,13 +51,21 @@ public class DetailContactActivity extends AppCompatActivity {
             binding.tvPhoneNumber.setText("+998" + contactList.get(position).getPhoneNumber());
         }
 
-        //get phone
-        phone = binding.tvPhoneNumber.getText().toString().trim();
+        binding.ivBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetailContactActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //call action
         binding.ivCallBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                //get phone
+                String phone = binding.tvPhoneNumber.getText().toString().trim();
 
                 Log.d("tel:", "tel:"+phone);
                 Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
@@ -105,9 +101,6 @@ public class DetailContactActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddContactActivity.class);
         intent.putExtra("title", "Edit contact");
         intent.putExtra("position", position);
-        intent.putExtra("name",name);
-        intent.putExtra("surname",surname);
-        intent.putExtra("phone",phoneNumber);
         startActivity(intent);
         finish();
     }
