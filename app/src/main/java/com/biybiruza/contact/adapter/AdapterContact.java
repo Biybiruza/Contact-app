@@ -22,6 +22,7 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ViewHold
     public List<ContactModels> list;
     private OnItemClickListener onClickListener;
     private OnCallClickListener onCallClickListener;
+    public int positions = 0;
 
     public AdapterContact(List<ContactModels> list, OnItemClickListener onClickListener,
                           OnCallClickListener onCallClickListener) {
@@ -51,6 +52,8 @@ public class AdapterContact extends RecyclerView.Adapter<AdapterContact.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.name.setText(String.format("%s %s", list.get(position).getName(), list.get(position).getSurname()));
         holder.phoneNumber.setText("+998"+list.get(position).getPhoneNumber());
+
+        positions = position;
         //item click
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

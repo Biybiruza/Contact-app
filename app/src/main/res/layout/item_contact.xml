@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:elevation="8dp"
     app:cardCornerRadius="6dp"
-    android:layout_margin="8dp">
+    android:layout_marginVertical="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Ivan Ivanovish"
-            android:textSize="16dp"
+            android:textSize="18dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="8dp"
             android:textColor="@color/black"
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="+99899 954 49 27"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textColor="#8B8B8B"
             android:fontFamily="@font/roboto_regular_400"
             app:layout_constraintEnd_toEndOf="@id/tv_name"

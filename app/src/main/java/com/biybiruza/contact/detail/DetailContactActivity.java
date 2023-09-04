@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -59,24 +62,19 @@ public class DetailContactActivity extends AppCompatActivity {
             }
         });
 
+        binding.ivDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteButton();
+            }
+        });
+
         //call action
         binding.ivCallBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                //get phone
-                String phone = binding.tvPhoneNumber.getText().toString().trim();
-
-                Log.d("tel:", "tel:"+phone);
-                Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
-                if (ActivityCompat.checkSelfPermission(DetailContactActivity.this,
-                        CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                    startActivity(callIntent);
-                } else {
-                    int REQUEST_CALL_PERMISSION = 100;
-                    ActivityCompat.requestPermissions(DetailContactActivity.this,
-                            new String[]{CALL_PHONE}, REQUEST_CALL_PERMISSION);
-                }
+                callBtn();
             }
         });
 
@@ -95,6 +93,55 @@ public class DetailContactActivity extends AppCompatActivity {
                 editContact();
             }
         });
+    }
+
+    private void deleteButton() {
+        Context context = this;
+        Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure you want to delete this contact?");
+        builder.setTitle("Alert!");
+        builder.setCancelable(false);
+        // Add the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+
+                contactList.remove(position);
+                Toast.makeText(context, "deleted", Toast.LENGTH_SHORT).show();
+                myShared.putList("key_",contactList);
+
+                Intent intent = new Intent(DetailContactActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User cancelled the dialog
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        // Show the Alert Dialog box
+        alertDialog.show();
+    }
+
+    private void callBtn(){
+        //get phone
+        String phone = binding.tvPhoneNumber.getText().toString().trim();
+
+        Log.d("tel:", "tel:"+phone);
+        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+        if (ActivityCompat.checkSelfPermission(DetailContactActivity.this,
+                CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(callIntent);
+        } else {
+            int REQUEST_CALL_PERMISSION = 100;
+            ActivityCompat.requestPermissions(DetailContactActivity.this,
+                    new String[]{CALL_PHONE}, REQUEST_CALL_PERMISSION);
+        }
     }
 
     private void editContact() {

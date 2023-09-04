@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     AdapterContact adapterContact;
     private MyShared myShared;
     List<ContactModels> contactList = new ArrayList<>();
+    List<ContactModels> searchList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +53,55 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        int position = adapterContact.positions;
+        binding.etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.d("before","NONE");
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                /*if (charSequence.length() > 0){
+                    if (contactList.get(position).getName().toUpperCase().contains(charSequence.toString().toUpperCase())) {
+
+                        ContactModels models = new ContactModels(contactList.get(position).getName(),
+                                contactList.get(position).getSurname(), contactList.get(position).getPhoneNumber());
+                        searchList.add(models);
+                    }
+
+                    AdapterContact adapter = new AdapterContact(searchList);
+                    binding.rvContact.setAdapter(adapter);
+
+                }else {
+                    binding.rvContact.setAdapter(adapterContact);
+                }*/
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().length() > 0){
+                    if (contactList.get(position).getName().toUpperCase().contains(editable.toString().toUpperCase())) {
+
+                        ContactModels models = new ContactModels(contactList.get(position).getName(),
+                                contactList.get(position).getSurname(), contactList.get(position).getPhoneNumber());
+
+                        searchList.add(models);
+
+                    }
+
+                    AdapterContact adapter = new AdapterContact(searchList);
+                    binding.rvContact.setAdapter(adapter);
+
+                } else {
+                    binding.rvContact.setAdapter(adapterContact);
+                }
+            }
+        });
 
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        adapterContact = new AdapterContact(contactList);
-//    }
 
     public void loadData() {
         if (myShared.getList("key_",ContactModels.class) != null){
